@@ -6,8 +6,6 @@ from sklearn.model_selection import GridSearchCV
 import os
 
 PORT =  os.environ['PORT_MLFLOW']
-# HOST = 0.0.0.0
-# PORT = 5000
 
 import mlflow.sklearn
 from mlflow.models.signature import infer_signature
@@ -41,9 +39,6 @@ class MLModelsDAO:
                         last_experiment = int(v.version)
                 trained_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{last_experiment}")
                 prediction = trained_model.predict(np.array(model['X']))
-                # f_name = f"models static/{model['problem']}_{model['name']}_{model['id']}.pickle"
-                # trained_model = pickle.load(open(f_name, 'rb'))
-                # prediction = trained_model.predict(np.array(model['X']))
                 log.info(f'ml_model {model["id"]} %s predictions successfully calculated')
                 return prediction.tolist()
         if f_name is None:
@@ -83,9 +78,6 @@ class MLModelsDAO:
                                     signature = signature,
                                     registered_model_name =
                                           f"{ml_model['problem']}_{ml_model['name']}_{ml_model['id']}")
-                # f_name = f"models static/{ml_model['problem']}_{ml_model['name']}_{ml_model['id']}.pickle"
-                # pickle.dump(best_model, open(f_name, 'wb'))
-                # ml_model['model_path'] = f_name
             elif ml_model['problem'] == 'regression':
                 best_model = regression(ml_model['name'], x, y, h_tune=ml_model['h_tune']) #обучение
                 mlflow.set_experiment(f"regressor")
@@ -98,9 +90,6 @@ class MLModelsDAO:
                                     signature = signature,
                                     registered_model_name =
                                           f"{ml_model['problem']}_{ml_model['name']}_{ml_model['id']}")
-                # f_name = f"models static/{ml_model['problem']}_{ml_model['name']}_{ml_model['id']}.pickle"
-                # pickle.dump(best_model, open(f_name, 'wb'))
-                # ml_model['model_path'] = f_name
             if is_new:
                 self.ml_models['data'].append(ml_model)
                 log.info(f'ml_model {ml_model["id"]} %s successfully added')
