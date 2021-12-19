@@ -1,0 +1,4 @@
+artifact_location: file:///Users/masakuznecova/Desktop/hw-flask-app/mlruns/1
+experiment_id: '1'
+lifecycle_stage: active
+name: classifier

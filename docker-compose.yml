@@ -1,0 +1,35 @@
+version: '2'
+services:
+    web:
+        container_name: flask-app
+        build:
+            context: ./flask-app
+            dockerfile: Dockerfile
+        restart: always
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./flask-app/logs :/flask-app/logs
+            - ./flask-app/models static :/flask-app/models static
+    mlflow:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "5050:5050"
+        volumes:
+            - ./mlartifacts :/mlartifacts
+    prometheus:
+        image: prom/prometheus:latest
+        ports:
+            - "9090:9090"
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    grafana:
+        image: grafana/grafana:latest
+        ports:
+            - 3000:3000
+        volumes:
+            - ./grafana.ini:/etc/grafana/grafana.ini
+        links:
+            - prometheus

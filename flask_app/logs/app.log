@@ -1,0 +1,56 @@
+19-Dec-21 18:42:39 - root - INFO - This is an info message
+19-Dec-21 18:42:39 - root - ERROR - This is an error message
+19-Dec-21 18:42:39 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+19-Dec-21 18:42:39 - werkzeug - INFO -  * Running on http://172.19.0.4:8080/ (Press CTRL+C to quit)
+19-Dec-21 18:42:44 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:42:44] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:42:54 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:42:54] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:43:04 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:43:04] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:43:05 - werkzeug - INFO - 172.19.0.1 - - [19/Dec/2021 18:43:05] "GET /api/ml_models HTTP/1.1" 200 -
+19-Dec-21 18:43:11 - app - INFO - ml_model 1 %s successfully added
+19-Dec-21 18:43:11 - werkzeug - INFO - 172.19.0.1 - - [19/Dec/2021 18:43:11] "POST /api/ml_models HTTP/1.1" 200 -
+19-Dec-21 18:43:12 - app - INFO - ml_model 2 %s successfully added
+19-Dec-21 18:43:12 - werkzeug - INFO - 172.19.0.1 - - [19/Dec/2021 18:43:12] "POST /api/ml_models HTTP/1.1" 200 -
+19-Dec-21 18:43:13 - werkzeug - INFO - 172.19.0.1 - - [19/Dec/2021 18:43:13] "GET /api/ml_models HTTP/1.1" 200 -
+19-Dec-21 18:43:14 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:43:14] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:43:24 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:43:24] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:43:28 - app - INFO - ml_model 1 %s predictions successfully calculated
+19-Dec-21 18:43:28 - werkzeug - INFO - 172.19.0.1 - - [19/Dec/2021 18:43:28] "GET /api/ml_models/1 HTTP/1.1" 200 -
+19-Dec-21 18:43:34 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:43:34] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:43:35 - app - ERROR - Exception on /api/ml_models/1 [DELETE]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1502, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/usr/local/lib/python3.8/site-packages/flask_restx/api.py", line 403, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/flask/views.py", line 84, in view
+    return current_app.ensure_sync(self.dispatch_request)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/flask_restx/resource.py", line 49, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "/flask-app/app/views.py", line 73, in delete
+    models_dao.delete(id)
+  File "/flask-app/app/ml_models/mlmodels.py", line 149, in delete
+    mlflow.delete_run(version.run_id)
+  File "/usr/local/lib/python3.8/site-packages/mlflow/tracking/fluent.py", line 993, in delete_run
+    MlflowClient().delete_run(run_id)
+  File "/usr/local/lib/python3.8/site-packages/mlflow/tracking/client.py", line 1487, in delete_run
+    self._tracking_client.delete_run(run_id)
+  File "/usr/local/lib/python3.8/site-packages/mlflow/tracking/_tracking_service/client.py", line 409, in delete_run
+    self.store.delete_run(run_id)
+  File "/usr/local/lib/python3.8/site-packages/mlflow/store/tracking/rest_store.py", line 276, in delete_run
+    self._call_endpoint(DeleteRun, req_body)
+  File "/usr/local/lib/python3.8/site-packages/mlflow/store/tracking/rest_store.py", line 56, in _call_endpoint
+    return call_endpoint(self.get_host_creds(), endpoint, method, json_body, response_proto)
+  File "/usr/local/lib/python3.8/site-packages/mlflow/utils/rest_utils.py", line 229, in call_endpoint
+    response = verify_rest_response(response, endpoint)
+  File "/usr/local/lib/python3.8/site-packages/mlflow/utils/rest_utils.py", line 169, in verify_rest_response
+    raise RestException(json.loads(response.text))
+mlflow.exceptions.RestException: INVALID_PARAMETER_VALUE: The run 9aca8426a5fe4802af0c1dc707312529 must be in the 'active' state. Current state is deleted.
+19-Dec-21 18:43:35 - werkzeug - INFO - 172.19.0.1 - - [19/Dec/2021 18:43:35] "[35m[1mDELETE /api/ml_models/1 HTTP/1.1[0m" 500 -
+19-Dec-21 18:43:44 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:43:44] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:43:54 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:43:54] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:44:04 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:44:04] "GET /metrics HTTP/1.1" 200 -
+19-Dec-21 18:44:09 - werkzeug - INFO - 172.19.0.1 - - [19/Dec/2021 18:44:09] "[35m[1mDELETE /api/ml_models/7 HTTP/1.1[0m" 204 -
+19-Dec-21 18:44:14 - werkzeug - INFO - 172.19.0.3 - - [19/Dec/2021 18:44:14] "GET /metrics HTTP/1.1" 200 -
